@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NUDASUKI — Sushi Nasi Uduk</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #f0f0ea;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: 24px 0 40px;
+    }
+
+    /* ── PHONE FRAME ── */
+    .phone {
+      width: 375px;
+      min-height: 700px;
+      background: #f8f8f6;
+      border-radius: 40px;
+      border: 2.5px solid #ccc;
+      box-shadow: 0 0 0 7px #e5e5e0, 0 24px 60px rgba(0,0,0,0.15);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .screen {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      min-height: 700px;
+    }
+
+    /* ── PAGE SWITCH ── */
+    .page { display: none; flex-direction: column; height: 100%; }
+    .page.active { display: flex; }
+
+    /* ════════════════════════════════
+       SPLASH SCREEN
+    ════════════════════════════════ */
+    .splash {
+      background: #1a4a2e;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    .splash-logo {
+      width: 88px;
+      height: 88px;
+      background: #c8a84b;
+      border-radius: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 8px;
+    }
+    .splash h1 {
+      color: #fff;
+      font-size: 32px;
+      font-weight: 600;
+      letter-spacing: 2px;
+    }
+    .splash-sub {
+      color: #c8a84b;
+      font-size: 13px;
+      letter-spacing: 3px;
+      font-weight: 500;
+    }
+    .splash-tagline {
+      color: rgba(255,255,255,0.55);
+      font-size: 12px;
+      margin-top: 4px;
+    }
+    .splash-btn {
+      margin-top: 40px;
+      background: #c8a84b;
+      color: #1a4a2e;
+      border: none;
+      border-radius: 100px;
+      padding: 14px 56px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .splash-btn:hover { opacity: 0.85; }
+
+    /* ════════════════════════════════
+       HOME
+    ════════════════════════════════ */
+    .home { background: #f5f5f0; }
+
+    .home-header {
+      background: #1a4a2e;
+      padding: 18px 16px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .home-logo-row { display: flex; align-items: center; gap: 10px; }
+    .mini-logo {
+      width: 36px;
+      height: 36px;
+      background: #c8a84b;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .home-title { color: #fff; font-size: 18px; font-weight: 600; }
+    .home-sub   { color: #c8a84b; font-size: 10px; letter-spacing: 0.5px; }
+
+    .cart-btn {
+      background: rgba(255,255,255,0.15);
+      border: none;
+      border-radius: 10px;
+      width: 38px;
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: #fff;
+      font-size: 20px;
+      position: relative;
+    }
+    .cart-badge {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background: #c8a84b;
+      color: #1a4a2e;
+      font-size: 9px;
+      font-weight: 700;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Banner Promo */
+    .banner {
+      margin: 14px 14px 4px;
+      background: #1a4a2e;
+      border-radius: 16px;
+      padding: 16px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .banner-text h3 { color: #c8a84b; font-size: 15px; font-weight: 600; }
+    .banner-text p  { color: rgba(255,255,255,0.8); font-size: 12px; margin-top: 3px; }
+    .banner-tag {
+      display: inline-block;
+      background: #c8a84b;
+      color: #1a4a2e;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 100px;
+      margin-top: 10px;
+    }
+    .banner-emoji { font-size: 48px; }
+
+    /* Section title */
+    .section-title {
+      padding: 14px 16px 8px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #1a4a2e;
+    }
+
+    /* Scrollable area */
+    .home-scroll { flex: 1; overflow-y: auto; padding-bottom: 16px; }
+    .home-scroll::-webkit-scrollbar { display: none; }
+
+    /* Menu Grid */
+    .menu-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      padding: 0 12px 4px;
+    }
+    .menu-card {
+      background: #fff;
+      border-radius: 16px;
+      border: 0.5px solid #e0ddd6;
+      overflow: hidden;
+      cursor: pointer;
+      transition: border-color 0.2s, transform 0.1s;
+    }
+    .menu-card:hover  { border-color: #1a4a2e; }
+    .menu-card:active { transform: scale(0.97); }
+
+    .menu-img {
+      width: 100%;
+      height: 88px;
+      background: #e8f4ec;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+    }
+    .menu-info  { padding: 10px 10px 12px; }
+    .menu-name  { font-size: 11px; font-weight: 600; color: #1a4a2e; line-height: 1.4; }
+    .menu-price { font-size: 12px; color: #c8a84b; font-weight: 600; margin-top: 3px; }
+    .menu-add {
+      width: 26px;
+      height: 26px;
+      background: #1a4a2e;
+      border-radius: 7px;
+      border: none;
+      color: #fff;
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 8px;
+      transition: background 0.2s, color 0.2s;
+    }
+    .menu-add:hover { background: #c8a84b; color: #1a4a2e; }
+
+    /* Bottom Nav */
+    .bottom-nav {
+      background: #fff;
+      border-top: 0.5px solid #e0ddd6;
+      display: flex;
+      padding: 8px 0 4px;
+    }
+    .nav-item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      cursor: pointer;
+      border: none;
+      background: none;
+      color: #aaa;
+      font-size: 10px;
+      padding: 4px 0;
+      transition: color 0.2s;
+    }
+    .nav-item i      { font-size: 22px; }
+    .nav-item.active { color: #1a4a2e; }
+
+    /* ════════════════════════════════
+       DETAIL PRODUK
+    ════════════════════════════════ */
+    .detail { background: #fff; }
+
+    .detail-img {
+      width: 100%;
+      height: 200px;
+      background: linear-gradient(135deg, #e8f4ec 0%, #d4edd9 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 90px;
+      position: relative;
+      flex-shrink: 0;
+    }
+    .back-btn {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      width: 38px;
+      height: 38px;
+      background: rgba(255,255,255,0.9);
+      border-radius: 11px;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      color: #1a4a2e;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .detail-body {
+      padding: 18px 16px;
+      flex: 1;
+      overflow-y: auto;
+    }
+    .detail-body::-webkit-scrollbar { display: none; }
+
+    .detail-name  { font-size: 20px; font-weight: 600; color: #1a4a2e; }
+    .detail-price { font-size: 22px; color: #c8a84b; font-weight: 700; margin-top: 4px; }
+    .detail-desc  { font-size: 13px; color: #666; margin-top: 12px; line-height: 1.7; }
+
+    .spicy-label { font-size: 13px; font-weight: 600; color: #1a4a2e; margin: 16px 0 10px; }
+    .spicy-opts  { display: flex; gap: 8px; flex-wrap: wrap; }
+    .spicy-opt {
+      border: 1.5px solid #e0ddd6;
+      border-radius: 100px;
+      padding: 7px 16px;
+      font-size: 12px;
+      color: #666;
+      cursor: pointer;
+      background: #fff;
+      transition: all 0.2s;
+    }
+    .spicy-opt.selected {
+      border-color: #1a4a2e;
+      background: #1a4a2e;
+      color: #fff;
+    }
+
+    .detail-footer {
+      padding: 12px 16px 20px;
+      border-top: 0.5px solid #e8e6e0;
+      background: #fff;
+    }
+    .add-cart-btn {
+      width: 100%;
+      background: #1a4a2e;
+      color: #fff;
+      border: none;
+      border-radius: 14px;
+      padding: 15px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+    .add-cart-btn:hover { background: #c8a84b; color: #1a4a2e; }
+
+    /* ════════════════════════════════
+       KERANJANG
+    ════════════════════════════════ */
+    .cart-page { background: #f5f5f0; }
+
+    .cart-header {
+      background: #1a4a2e;
+      padding: 18px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .cart-header h2 { color: #fff; font-size: 17px; font-weight: 600; }
+    .header-back {
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 22px;
+      cursor: pointer;
+      padding: 0;
+      display: flex;
+      align-items: center;
+    }
+
+    .cart-items { flex: 1; overflow-y: auto; padding: 12px; }
+    .cart-items::-webkit-scrollbar { display: none; }
+
+    .cart-item {
+      background: #fff;
+      border-radius: 14px;
+      border: 0.5px solid #e0ddd6;
+      padding: 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+    .cart-item-img {
+      width: 52px;
+      height: 52px;
+      background: #e8f4ec;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      flex-shrink: 0;
+    }
+    .cart-item-info { flex: 1; }
+    .cart-item-name  { font-size: 12px; font-weight: 600; color: #1a4a2e; }
+    .cart-item-price { font-size: 11px; color: #c8a84b; margin-top: 2px; }
+
+    .qty-ctrl { display: flex; align-items: center; gap: 10px; margin-top: 6px; }
+    .qty-btn {
+      width: 24px;
+      height: 24px;
+      border-radius: 7px;
+      border: 1.5px solid #1a4a2e;
+      background: #fff;
+      color: #1a4a2e;
+      font-size: 15px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+      transition: background 0.15s, color 0.15s;
+    }
+    .qty-btn:hover { background: #1a4a2e; color: #fff; }
+    .qty-num { font-size: 13px; font-weight: 600; color: #1a4a2e; min-width: 18px; text-align: center; }
+    .cart-item-subtotal { font-size: 12px; font-weight: 600; color: #1a4a2e; flex-shrink: 0; }
+
+    .cart-summary {
+      background: #fff;
+      margin: 0 12px 12px;
+      border-radius: 14px;
+      border: 0.5px solid #e0ddd6;
+      padding: 14px;
+    }
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: #666;
+      margin-bottom: 7px;
+    }
+    .summary-row.total {
+      font-size: 14px;
+      font-weight: 600;
+      color: #1a4a2e;
+      border-top: 0.5px solid #e0ddd6;
+      padding-top: 9px;
+      margin-top: 4px;
+      margin-bottom: 0;
+    }
+
+    .checkout-btn {
+      margin: 0 12px 20px;
+      width: calc(100% - 24px);
+      display: block;
+      background: #1a4a2e;
+      color: #fff;
+      border: none;
+      border-radius: 14px;
+      padding: 15px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+    .checkout-btn:hover { background: #c8a84b; color: #1a4a2e; }
+
+    /* ════════════════════════════════
+       PEMBAYARAN
+    ════════════════════════════════ */
+    .payment { background: #f5f5f0; }
+
+    .pay-header {
+      background: #1a4a2e;
+      padding: 18px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .pay-header h2 { color: #fff; font-size: 17px; font-weight: 600; }
+
+    .pay-scroll { flex: 1; overflow-y: auto; padding: 12px; }
+    .pay-scroll::-webkit-scrollbar { display: none; }
+
+    .pay-section {
+      background: #fff;
+      border-radius: 14px;
+      border: 0.5px solid #e0ddd6;
+      padding: 16px;
+      margin-bottom: 10px;
+    }
+    .pay-section h3 {
+      font-size: 13px;
+      font-weight: 600;
+      color: #1a4a2e;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .pay-method { display: flex; gap: 8px; }
+    .pay-opt {
+      flex: 1;
+      border: 1.5px solid #e0ddd6;
+      border-radius: 12px;
+      padding: 12px 6px;
+      text-align: center;
+      cursor: pointer;
+      background: #fff;
+      transition: all 0.2s;
+    }
+    .pay-opt.selected {
+      border-color: #1a4a2e;
+      background: #e8f4ec;
+    }
+    .pay-opt-icon { font-size: 22px; display: block; }
+    .pay-opt-name { font-size: 10px; color: #555; display: block; margin-top: 6px; font-weight: 600; }
+    .pay-opt.selected .pay-opt-name { color: #1a4a2e; }
+
+    .order-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: #555;
+      margin-bottom: 6px;
+    }
+    .order-row.total {
+      font-weight: 600;
+      color: #1a4a2e;
+      font-size: 14px;
+      border-top: 0.5px solid #e0ddd6;
+      padding-top: 9px;
+      margin-top: 4px;
+      margin-bottom: 0;
+    }
+
+    .pay-now-btn {
+      width: 100%;
+      background: #c8a84b;
+      color: #1a4a2e;
+      border: none;
+      border-radius: 14px;
+      padding: 15px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: background 0.2s, color 0.2s;
+      margin-top: 4px;
+    }
+    .pay-now-btn:hover { background: #1a4a2e; color: #fff; }
+
+    /* ════════════════════════════════
+       SUKSES
+    ════════════════════════════════ */
+    .success {
+      background: #1a4a2e;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      text-align: center;
+      padding: 0 24px;
+    }
+    .success-circle {
+      width: 130px;
+      height: 130px;
+      background: rgba(200,168,75,0.15);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 72px;
+      margin-bottom: 4px;
+    }
+    .success-check {
+      width: 52px;
+      height: 52px;
+      background: #c8a84b;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #1a4a2e;
+      font-size: 26px;
+      margin-bottom: 6px;
+    }
+    .success h2 {
+      color: #fff;
+      font-size: 18px;
+      font-weight: 600;
+      line-height: 1.5;
+    }
+    .success p  { color: rgba(255,255,255,0.6); font-size: 13px; margin-top: 4px; }
+    .order-id {
+      background: rgba(200,168,75,0.18);
+      border-radius: 12px;
+      padding: 10px 24px;
+      margin-top: 8px;
+    }
+    .order-id span { color: #c8a84b; font-size: 13px; font-weight: 600; }
+
+    .home-btn {
+      margin-top: 28px;
+      background: #c8a84b;
+      color: #1a4a2e;
+      border: none;
+      border-radius: 100px;
+      padding: 14px 48px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .home-btn:hover { opacity: 0.85; }
+
+    /* ── NAV DEMO BUTTONS ── */
+    .nav-demo {
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 20px;
+      padding: 0 8px;
+    }
+    .nav-demo button {
+      font-size: 11px;
+      padding: 7px 14px;
+      border-radius: 100px;
+      border: 1.5px solid #1a4a2e;
+      background: #fff;
+      color: #1a4a2e;
+      cursor: pointer;
+      font-weight: 500;
+      transition: background 0.2s, color 0.2s;
+    }
+    .nav-demo button:hover   { background: #1a4a2e; color: #fff; }
+    .nav-demo button.primary { background: #1a4a2e; color: #fff; }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════ PHONE FRAME ══════════════ -->
+<div class="phone">
+  <div class="screen">
+
+    <!-- ===== SPLASH ===== -->
+    <div class="page active splash" id="page-splash">
+      <div class="splash-logo">
+        <svg width="56" height="56" viewBox="0 0 48 48" fill="none">
+          <ellipse cx="24" cy="28" rx="18" ry="12" fill="#1a4a2e"/>
+          <ellipse cx="24" cy="26" rx="16" ry="9" fill="#fff"/>
+          <ellipse cx="15" cy="26" rx="5" ry="7" fill="#c8a84b" opacity="0.7"/>
+          <ellipse cx="24" cy="26" rx="5" ry="7" fill="#e8c86a" opacity="0.85"/>
+          <ellipse cx="33" cy="26" rx="5" ry="7" fill="#c8a84b" opacity="0.7"/>
+          <rect x="8" y="36" width="32" height="5" rx="2.5" fill="#1a4a2e"/>
+        </svg>
+      </div>
+      <h1>Nudasuki</h1>
+      <p class="splash-sub">SUSHI NASI UDUK</p>
+      <span class="splash-tagline">Kuliner Nusantara Modern</span>
+      <button class="splash-btn" onclick="goTo('home')">Mulai Pesan</button>
+    </div>
+
+    <!-- ===== HOME ===== -->
+    <div class="page" id="page-home">
+      <div class="home-header">
+        <div class="home-logo-row">
+          <div class="mini-logo">
+            <svg width="22" height="22" viewBox="0 0 48 48" fill="none">
+              <ellipse cx="24" cy="28" rx="18" ry="12" fill="#1a4a2e"/>
+              <ellipse cx="24" cy="26" rx="16" ry="9" fill="#fff"/>
+              <ellipse cx="15" cy="26" rx="5" ry="7" fill="#c8a84b" opacity="0.7"/>
+              <ellipse cx="24" cy="26" rx="5" ry="7" fill="#e8c86a" opacity="0.85"/>
+              <ellipse cx="33" cy="26" rx="5" ry="7" fill="#c8a84b" opacity="0.7"/>
+              <rect x="8" y="36" width="32" height="5" rx="2.5" fill="#1a4a2e"/>
+            </svg>
+          </div>
+          <div>
+            <div class="home-title">Nudasuki</div>
+            <div class="home-sub">Sushi Nasi Uduk Nusantara</div>
+          </div>
+        </div>
+        <button class="cart-btn" onclick="goTo('cart')" aria-label="Keranjang">
+          <i class="ti ti-shopping-cart"></i>
+          <span class="cart-badge" id="cart-badge">0</span>
+        </button>
+      </div>
+
+      <div class="home-scroll">
+        <!-- Banner -->
+        <div class="banner">
+          <div class="banner-text">
+            <h3>Promo Hari Ini! 🎉</h3>
+            <p>Beli 2 gratis Es Teh Manis</p>
+            <span class="banner-tag">Hemat Rp5.000</span>
+          </div>
+          <span class="banner-emoji">🍣</span>
+        </div>
+
+        <!-- Makanan -->
+        <div class="section-title">🍱 Menu Andalan</div>
+        <div class="menu-grid">
+          <div class="menu-card" onclick="openDetail(0)">
+            <img src="sushi.jpeg"
+  width: 100%; 
+  height: 150px; 
+  background-size: contain; 
+  background-position: center; 
+  background-repeat: no-repeat; 
+  border-radius: 12px;
+">
+            <div class="menu-info">
+              <div class="menu-name">Sushi Nasi Uduk Ayam</div>
+              <div class="menu-price">Rp15.000</div>
+              <button class="menu-add" onclick="event.stopPropagation(); addToCart(0)" aria-label="Tambah">
+                <i class="ti ti-plus"></i>
+              </button>
+            </div>
+          </div>
+          <div class="menu-card" onclick="openDetail(1)">
+            <div style="
+  width: 100%; 
+  height: 150px; 
+  background-image: url('sushirendang.png'); 
+  background-size: contain; 
+  background-position: center; 
+  background-repeat: no-repeat; 
+  border-radius: 12px;
+"></div>
+            <div class="menu-info">
+              <div class="menu-name">Sushi Nasi Uduk Rendang</div>
+              <div class="menu-price">Rp18.000</div>
+              <button class="menu-add" onclick="event.stopPropagation(); addToCart(1)" aria-label="Tambah">
+                <i class="ti ti-plus"></i>
+              </button>
+            </div>
+          </div>
+          <div class="menu-card" onclick="openDetail(2)">
+            <div style="
+  width: 100%; 
+  height: 150px; 
+  background-image: url('nasduktelur.png'); 
+  background-size: contain; 
+  background-position: center; 
+  background-repeat: no-repeat; 
+  border-radius: 12px;
+"></div>
+            <div class="menu-info">
+              <div class="menu-name">Sushi Nasi Uduk Telur</div>
+              <div class="menu-price">Rp12.000</div>
+              <button class="menu-add" onclick="event.stopPropagation(); addToCart(2)" aria-label="Tambah">
+                <i class="ti ti-plus"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Minuman -->
+        <div class="section-title">🥤 Minuman Segar</div>
+        <div class="menu-grid">
+          <div class="menu-card" onclick="openDetail(3)">
+            <div class="menu-img" style="background:#fff8e1;">🧋</div>
+            <div class="menu-info">
+              <div class="menu-name">Es Teh Manis</div>
+              <div class="menu-price">Rp5.000</div>
+              <button class="menu-add" onclick="event.stopPropagation(); addToCart(3)" aria-label="Tambah">
+                <i class="ti ti-plus"></i>
+              </button>
+            </div>
+          </div>
+          <div class="menu-card" onclick="openDetail(4)">
+            <div class="menu-img" style="background:#fff3e0;">🍊</div>
+            <div class="menu-info">
+              <div class="menu-name">Es Jeruk</div>
+              <div class="menu-price">Rp7.000</div>
+              <button class="menu-add" onclick="event.stopPropagation(); addToCart(4)" aria-label="Tambah">
+                <i class="ti ti-plus"></i>
+              </button>
+            </div>
+          </div>
+          <div class="menu-card" onclick="openDetail(5)">
+            <div class="menu-img" style="background:#e3f2fd;">💧</div>
+            <div class="menu-info">
+              <div class="menu-name">Air Mineral</div>
+              <div class="menu-price">Rp4.000</div>
+              <button class="menu-add" onclick="event.stopPropagation(); addToCart(5)" aria-label="Tambah">
+                <i class="ti ti-plus"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div><!-- end home-scroll -->
+
+      <div class="bottom-nav">
+        <button class="nav-item active">
+          <i class="ti ti-home"></i>Beranda
+        </button>
+        <button class="nav-item" onclick="goTo('cart')">
+          <i class="ti ti-shopping-cart"></i>Keranjang
+        </button>
+        <button class="nav-item">
+          <i class="ti ti-user"></i>Profil
+        </button>
+      </div>
+    </div><!-- end page-home -->
+
+    <!-- ===== DETAIL PRODUK ===== -->
+    <div class="page" id="page-detail">
+      <div class="detail-img" id="detail-img-bg">
+        <button class="back-btn" onclick="goTo('home')" aria-label="Kembali">
+          <i class="ti ti-arrow-left"></i>
+        </button>
+        <span id="detail-emoji">🍣</span>
+      </div>
+      <div class="detail-body">
+        <div class="detail-name"  id="detail-name">Sushi Nasi Uduk Ayam</div>
+        <div class="detail-price" id="detail-price">Rp15.000</div>
+        <p class="detail-desc"    id="detail-desc">Deskripsi produk.</p>
+        <div class="spicy-label">Tingkat Kepedasan</div>
+        <div class="spicy-opts">
+          <button class="spicy-opt selected" onclick="selectSpicy(this)">Tidak Pedas</button>
+          <button class="spicy-opt"          onclick="selectSpicy(this)">Sedang 🌶</button>
+          <button class="spicy-opt"          onclick="selectSpicy(this)">Pedas 🌶🌶</button>
+        </div>
+      </div>
+      <div class="detail-footer">
+        <button class="add-cart-btn" id="detail-add-btn" onclick="addFromDetail()">
+          + Tambah ke Keranjang
+        </button>
+      </div>
+    </div><!-- end page-detail -->
+
+    <!-- ===== KERANJANG ===== -->
+    <div class="page cart-page" id="page-cart">
+      <div class="cart-header">
+        <button class="header-back" onclick="goTo('home')" aria-label="Kembali">
+          <i class="ti ti-arrow-left"></i>
+        </button>
+        <h2>Keranjang Pesanan</h2>
+      </div>
+      <div class="cart-items" id="cart-list"></div>
+      <div class="cart-summary" id="cart-summary"></div>
+      <button class="checkout-btn" onclick="goTo('payment')">
+        Lanjut ke Pembayaran →
+      </button>
+    </div><!-- end page-cart -->
+
+    <!-- ===== PEMBAYARAN ===== -->
+    <div class="page payment" id="page-payment">
+      <div class="pay-header">
+        <button class="header-back" onclick="goTo('cart')" aria-label="Kembali">
+          <i class="ti ti-arrow-left"></i>
+        </button>
+        <h2>Pilih Pembayaran</h2>
+      </div>
+      <div class="pay-scroll">
+        <div class="pay-section">
+          <h3><i class="ti ti-credit-card"></i> Metode Pembayaran</h3>
+          <div class="pay-method">
+            <div class="pay-opt selected" onclick="selectPay(this)">
+              <span class="pay-opt-icon">⬛</span>
+              <span class="pay-opt-name">QRIS</span>
+            </div>
+            <div class="pay-opt" onclick="selectPay(this)">
+              <span class="pay-opt-icon">🏦</span>
+              <span class="pay-opt-name">Transfer Bank</span>
+            </div>
+            <div class="pay-opt" onclick="selectPay(this)">
+              <span class="pay-opt-icon">📱</span>
+              <span class="pay-opt-name">E-Wallet</span>
+            </div>
+          </div>
+        </div>
+        <div class="pay-section">
+          <h3><i class="ti ti-receipt"></i> Ringkasan Pesanan</h3>
+          <div id="pay-order-list"></div>
+        </div>
+        <button class="pay-now-btn" onclick="goTo('success')">
+          <i class="ti ti-lock"></i> Bayar Sekarang
+        </button>
+      </div>
+    </div><!-- end page-payment -->
+
+    <!-- ===== SUKSES ===== -->
+    <div class="page success" id="page-success">
+      <div class="success-circle">🍣</div>
+      <div class="success-check"><i class="ti ti-check"></i></div>
+      <h2>Terima Kasih Telah Memesan di Nudasuki!</h2>
+      <p>Pesanan kamu sedang kami siapkan 🍣</p>
+      <div class="order-id">
+        <span id="order-id-text">No. Order: #NDK-0001</span>
+      </div>
+      <button class="home-btn" onclick="resetAndHome()">Kembali ke Beranda</button>
+    </div><!-- end page-success -->
+
+  </div><!-- end screen -->
+</div><!-- end phone -->
+
+<!-- Tombol navigasi cepat (opsional, bisa dihapus) -->
+<div class="nav-demo">
+  <button onclick="goTo('splash')">Splash</button>
+  <button onclick="goTo('home')">Home</button>
+  <button onclick="openDetail(0)">Detail</button>
+  <button onclick="goTo('cart')">Keranjang</button>
+  <button onclick="goTo('payment')">Pembayaran</button>
+  <button class="primary" onclick="goTo('success')">Sukses</button>
+</div>
+
+<!-- ══════════════ JAVASCRIPT ══════════════ -->
+<script>
+  /* ─── DATA MENU ─────────────────────────────────────────── */
+  const MENU = [
+    {
+      name:  "Sushi Nasi Uduk Ayam",
+      price: 15000,
+      emoji: "🍣",
+      bg:    "#e8f4ec",
+      desc:  "Perpaduan unik nasi uduk gurih berbumbu rempah dengan teknik sushi Jepang. Diisi ayam bumbu bakar yang lembut, disajikan dengan sambal kecap dan acar timun segar."
+    },
+    {
+      name:  "Sushi Nasi Uduk Rendang",
+      price: 18000,
+      emoji: "🥩",
+      bg:    "#fef3e2",
+      desc:  "Sushi nasi uduk premium dengan isian rendang daging sapi empuk khas Padang. Cita rasa kaya rempah yang memanjakan lidah, perpaduan dua budaya kuliner Indonesia."
+    },
+    {
+      name:  "Sushi Nasi Uduk Telur",
+      price: 12000,
+      emoji: "🥚",
+      bg:    "#fffbe6",
+      desc:  "Pilihan favorit yang terjangkau! Nasi uduk harum dengan balutan telur dadar bumbu spesial dan kerupuk bawang yang renyah."
+    },
+    {
+      name:  "Es Teh Manis",
+      price: 5000,
+      emoji: "🧋",
+      bg:    "#fff8e1",
+      desc:  "Teh hitam segar diseduh dengan air mendidih, dipadukan gula asli dan es batu pilihan. Segar menemani sushi-mu!"
+    },
+    {
+      name:  "Es Jeruk",
+      price: 7000,
+      emoji: "🍊",
+      bg:    "#fff3e0",
+      desc:  "Perasan jeruk lokal segar yang menyegarkan, tanpa pengawet dan pewarna buatan. Manis alami, cocok untuk semua usia."
+    },
+    {
+      name:  "Air Mineral",
+      price: 4000,
+      emoji: "💧",
+      bg:    "#e3f2fd",
+      desc:  "Air mineral bersih kemasan 600ml untuk menemani makan siang kamu. Hidrasi terjaga, makan makin nikmat!"
+    }
+  ];
+
+  /* ─── STATE ─────────────────────────────────────────────── */
+  let cart          = {};   // { menuIndex: qty }
+  let currentDetail = 0;   // index menu yang sedang dibuka di detail
+  let orderCounter  = 1;   // nomor order otomatis
+
+  /* ─── HELPER ─────────────────────────────────────────────── */
+  function fmt(n) {
+    return "Rp" + n.toLocaleString("id-ID");
+  }
+
+  /* ─── NAVIGASI ───────────────────────────────────────────── */
+  function goTo(page) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + page).classList.add('active');
+
+    if (page === 'cart')    renderCart();
+    if (page === 'payment') renderPayOrder();
+    updateBadge();
+  }
+
+  /* ─── DETAIL PRODUK ─────────────────────────────────────── */
+  function openDetail(idx) {
+    currentDetail = idx;
+    const m = MENU[idx];
+
+    document.getElementById('detail-emoji').textContent = m.emoji;
+    document.getElementById('detail-img-bg').style.background =
+      'linear-gradient(135deg, ' + m.bg + ' 0%, #d4edd9 100%)';
+    document.getElementById('detail-name').textContent  = m.name;
+    document.getElementById('detail-price').textContent = fmt(m.price);
+    document.getElementById('detail-desc').textContent  = m.desc;
+
+    // Reset pilihan pedas ke "Tidak Pedas"
+    document.querySelectorAll('.spicy-opt').forEach((el, i) => {
+      el.classList.toggle('selected', i === 0);
+    });
+
+    goTo('detail');
+  }
+
+  function selectSpicy(el) {
+    document.querySelectorAll('.spicy-opt').forEach(e => e.classList.remove('selected'));
+    el.classList.add('selected');
+  }
+
+  function addFromDetail() {
+    addToCart(currentDetail);
+    const btn = document.getElementById('detail-add-btn');
+    btn.textContent     = '✓ Ditambahkan ke Keranjang!';
+    btn.style.background = '#c8a84b';
+    btn.style.color      = '#1a4a2e';
+    setTimeout(() => {
+      btn.textContent      = '+ Tambah ke Keranjang';
+      btn.style.background = '';
+      btn.style.color      = '';
+    }, 1400);
+  }
+
+  /* ─── CART LOGIC ─────────────────────────────────────────── */
+  function addToCart(idx) {
+    cart[idx] = (cart[idx] || 0) + 1;
+    updateBadge();
+  }
+
+  function changeQty(idx, delta) {
+    cart[idx] = Math.max(0, (cart[idx] || 0) + delta);
+    if (cart[idx] === 0) delete cart[idx];
+    renderCart();
+    updateBadge();
+  }
+
+  function updateBadge() {
+    const total = Object.values(cart).reduce((a, b) => a + b, 0);
+    document.getElementById('cart-badge').textContent = total;
+  }
+
+  /* ─── RENDER KERANJANG ───────────────────────────────────── */
+  function renderCart() {
+    const listEl    = document.getElementById('cart-list');
+    const summaryEl = document.getElementById('cart-summary');
+    const keys      = Object.keys(cart).filter(k => cart[k] > 0);
+
+    if (keys.length === 0) {
+      listEl.innerHTML    = '<div style="text-align:center;padding:40px 16px;color:#aaa;font-size:13px;"><div style="font-size:52px;margin-bottom:12px;">🛒</div>Keranjang kamu masih kosong.<br>Yuk, pilih menu dulu!</div>';
+      summaryEl.innerHTML = '';
+      return;
+    }
+
+    let subtotal = 0;
+
+    listEl.innerHTML = keys.map(k => {
+      const m    = MENU[k];
+      const qty  = cart[k];
+      const sub  = m.price * qty;
+      subtotal  += sub;
+      return `
+        <div class="cart-item">
+          <div class="cart-item-img">${m.emoji}</div>
+          <div class="cart-item-info">
+            <div class="cart-item-name">${m.name}</div>
+            <div class="cart-item-price">${fmt(m.price)}</div>
+            <div class="qty-ctrl">
+              <button class="qty-btn" onclick="changeQty(${k}, -1)">−</button>
+              <span class="qty-num">${qty}</span>
+              <button class="qty-btn" onclick="changeQty(${k}, +1)">+</button>
+            </div>
+          </div>
+          <div class="cart-item-subtotal">${fmt(sub)}</div>
+        </div>`;
+    }).join('');
+
+    const tax   = Math.round(subtotal * 0.05);
+    const total = subtotal + tax;
+
+    summaryEl.innerHTML = `
+      <div class="summary-row"><span>Subtotal</span><span>${fmt(subtotal)}</span></div>
+      <div class="summary-row"><span>Pajak (5%)</span><span>${fmt(tax)}</span></div>
+      <div class="summary-row total"><span>Total Pembayaran</span><span>${fmt(total)}</span></div>`;
+  }
+
+  /* ─── RENDER RINGKASAN PEMBAYARAN ───────────────────────── */
+  function renderPayOrder() {
+    const el   = document.getElementById('pay-order-list');
+    const keys = Object.keys(cart).filter(k => cart[k] > 0);
+
+    if (keys.length === 0) {
+      el.innerHTML = '<div style="font-size:12px;color:#aaa;text-align:center;padding:8px 0;">Keranjang kosong</div>';
+      return;
+    }
+
+    let subtotal = 0;
+    let rows = keys.map(k => {
+      const m   = MENU[k];
+      const qty = cart[k];
+      const sub = m.price * qty;
+      subtotal += sub;
+      return `<div class="order-row"><span>${m.name} ×${qty}</span><span>${fmt(sub)}</span></div>`;
+    }).join('');
+
+    const tax   = Math.round(subtotal * 0.05);
+    const total = subtotal + tax;
+
+    rows += `
+      <div class="order-row"><span>Pajak (5%)</span><span>${fmt(tax)}</span></div>
+      <div class="order-row total"><span>Total Bayar</span><span>${fmt(total)}</span></div>`;
+
+    el.innerHTML = rows;
+  }
+
+  /* ─── PILIH METODE BAYAR ─────────────────────────────────── */
+  function selectPay(el) {
+    document.querySelectorAll('.pay-opt').forEach(e => e.classList.remove('selected'));
+    el.classList.add('selected');
+  }
+
+  /* ─── RESET SETELAH SUKSES ───────────────────────────────── */
+  function resetAndHome() {
+    cart = {};
+    orderCounter++;
+    document.getElementById('order-id-text').textContent =
+      'No. Order: #NDK-' + String(orderCounter).padStart(4, '0');
+    updateBadge();
+    goTo('home');
+  }
+
+  /* ─── INIT ───────────────────────────────────────────────── */
+  updateBadge();
+</script>
+</body>
+</html>
